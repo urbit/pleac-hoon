@@ -155,3 +155,33 @@ tep
 ^-  tape
 (turn inp |=(a/@tD +(a)))
 :: "IBM"
+::
+::  Processing a String One Character at a Time
+::
+:: function for manipulating one char of tape at a time
+:: i.tep is first char of tape; t.tep is rest of tape
+%.  "This tape will be a list of binaries."
+|=  tep/tape
+|-  ^-  (list @ub)                                      :: adjust cast
+?~  tep  ~
+:_  $(tep t.tep)
+`@ub`i.tep                                              :: your function here
+:: get list of unique chars in a tape
+%.  "All unique chars in this tape"
+|=  tep/tape
+=/  c/@ud  0                                            :: counter
+|-  ^-  tape
+?:  =(c 128)  ~                                         :: 128 ASCII chars
+?~  (find [c ~] tep)  $(c +(c))
+[`@tD`c $(c +(c))]
+:: " Aacehilnpqrstu"
+:: get set of unique chars in a tape
+%.  "all the unique characters"
+|=  tep/tape
+(silt tep)
+:: {' ' 'e' 'a' 'c' 'l' 'n' 'i' 'h' 'u' 't' 'q' 's' 'r'}
+:: summing the values of the chars in a tape
+%.  "an apple a day"
+|=  tep/tape
+^-(@ud (roll tep add))
+:: 1.248
