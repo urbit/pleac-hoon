@@ -88,3 +88,100 @@
 =.  tep  (scag (sub (lent tep) 10) tep)                 ::< delete last 10 chars
 tep
 ::
+::  Establishing a Default Value
+::
+:: setting b to a default value
+=/  b/tape  "default"
+=.  b  ?:(con b "alternative")
+::
+:: if b is null (an empty tape) then set to "default", else retain value
+=/  b/tape  ?~(b "default" b)
+::
+:: use b if b is true, otherwise use c
+=/  a  ?:(b b c)                                        :: b must be loobean
+::
+:: set x to y unless x is already true
+=/  x  ?:(x x y)
+::
+:: to get ship name in apps (not gens), use:
+=/  ship/@p  our
+::
+:: Exchanging Values Without Using Temporary Variables
+::
+=+  [v1=v2 v2=v1]
+::
+:: DON'T DO THIS:
+=/  tem  a
+=/  a  b
+=/  b  tem
+::
+:: Swap two values:
+=/  a/tape  "alpha"
+=/  b/tape  "omega"
+=+  [a=b b=a]
+::
+:: Swap three values:
+=/  fir/tape  "January"
+=/  sec/tape  "March"
+=/  tir/tape  "August"
+=+  [fir=sec sec=tir tir=fir]
+::
+::  Converting Between ASCII Characters and Values
+::
+:: convert tape to cord
+(crip "This tape will become a cord.")
+:: convert cord to tape
+(trip 'This cord will become a tape.')
+:: cast char to unsigned decimal...
+`@ud`'a'
+:: and then cast back to char
+`@tD`97                                                 :: 97 is ASCII for 'a'
+:: make a char upper-case
+`@tD`(sub 'a' 32)
+:: convert tape to list of unsigned decimals
+:: each char becomes its corresponding @ud
+%.  "This tape is about to get decimal!"
+|=  inp/tape
+^-  (list @ud)
+(turn inp |=(a/@tD `@ud`a))
+:: convert list of unsigned decimals to tape
+%.  ~[72 111 119 100 121 33]                           :: "Howdy!"
+|=  lis/(list @ud)
+^-  tape
+(turn lis |=(a/@ud `@tD`a))
+:: add 1 to each ASCII value
+%.  "HAL"
+|=  inp/tape
+^-  tape
+(turn inp |=(a/@tD +(a)))
+:: "IBM"
+::
+::  Processing a String One Character at a Time
+::
+:: function for manipulating one char of tape at a time
+:: i.tep is first char of tape; t.tep is rest of tape
+%.  "This tape will be a list of binaries."
+|=  tep/tape
+|-  ^-  (list @ub)                                      :: adjust cast
+?~  tep  ~
+:_  $(tep t.tep)
+`@ub`i.tep                                              :: your function here
+:: get list of unique chars in a tape
+%.  "All unique chars in this tape"
+|=  tep/tape
+=/  c/@ud  0                                            :: counter
+|-  ^-  tape
+?:  =(c 128)  ~                                         :: 128 ASCII chars
+?~  (find [c ~] tep)  $(c +(c))
+[`@tD`c $(c +(c))]
+:: " Aacehilnpqrstu"
+:: get set of unique chars in a tape
+%.  "all the unique characters"
+|=  tep/tape
+(silt tep)
+:: {' ' 'e' 'a' 'c' 'l' 'n' 'i' 'h' 'u' 't' 'q' 's' 'r'}
+:: summing the values of the chars in a tape
+%.  "an apple a day"
+|=  tep/tape
+^-(@ud (roll tep add))
+:: 1.248
