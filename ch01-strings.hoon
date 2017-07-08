@@ -88,3 +88,20 @@
 =.  tep  (scag (sub (lent tep) 10) tep)                 ::< delete last 10 chars
 tep
 ::
+::  Establishing a Default Value
+::
+:: setting b to a default value
+=/  b/tape  "default"
+=.  b  ?:(con b "alternative")  :: if (con) then b is default, else alt
+::
+:: if b is null (an empty tape) then set to "default", else retain value
+=/  b/tape  ?~(b "default" b)
+::
+:: use b if b is true, otherwise use c
+=/  a  ?:(b b c)                                        :: b must be loobean
+::
+:: set x to y unless x is already true
+=/  x  ?:(x x y)
+::
+:: to get ship name in apps (not gens), use:
+=/  ship/@p  our
