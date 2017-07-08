@@ -108,7 +108,6 @@ tep
 ::
 :: Exchanging Values Without Using Temporary Variables
 ::
-::
 =+  [v1=v2 v2=v1]
 ::
 :: DON'T DO THIS:
@@ -117,9 +116,9 @@ tep
 =/  b  tem
 ::
 :: Swap two values:
-=/  a/tape  "alpha"    :: initialize a and b as tapes (strings)
+=/  a/tape  "alpha"
 =/  b/tape  "omega"
-=+  [a=b b=a]          :: swap values
+=+  [a=b b=a]
 ::
 :: Swap three values:
 =/  fir/tape  "January"
