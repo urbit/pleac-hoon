@@ -125,3 +125,33 @@ tep
 =/  sec/tape  "March"
 =/  tir/tape  "August"
 =+  [fir=sec sec=tir tir=fir]
+::
+::  Converting Between ASCII Characters and Values
+::
+:: convert tape to cord
+(crip "This tape will become a cord.")
+:: convert cord to tape
+(trip 'This cord will become a tape.')
+:: cast char to unsigned decimal...
+`@ud`'a'
+:: and then cast back to char
+`@tD`97                                                 :: 97 is ASCII for 'a'
+:: make a char upper-case
+`@tD`(sub 'a' 32)
+:: convert tape to list of unsigned decimals
+:: each char becomes its corresponding @ud
+%.  "This tape is about to get decimal!"
+|=  inp/tape
+^-  (list @ud)
+(turn inp |=(a/@tD `@ud`a))
+:: convert list of unsigned decimals to tape
+%.  ~[72 111 119 100 121 33]                           :: "Howdy!"
+|=  lis/(list @ud)
+^-  tape
+(turn lis |=(a/@ud `@tD`a))
+:: add 1 to each ASCII value
+%.  "HAL"
+|=  inp/tape
+^-  tape
+(turn inp |=(a/@tD +(a)))
+:: "IBM"
