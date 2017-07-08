@@ -105,3 +105,24 @@ tep
 ::
 :: to get ship name in apps (not gens), use:
 =/  ship/@p  our
+::
+:: Exchanging Values Without Using Temporary Variables
+::
+::
+=+  [v1=v2 v2=v1]
+::
+:: DON'T DO THIS:
+=/  tem  a
+=/  a  b
+=/  b  tem
+::
+:: Swap two values:
+=/  a/tape  "alpha"    :: initialize a and b as tapes (strings)
+=/  b/tape  "omega"
+=+  [a=b b=a]          :: swap values
+::
+:: Swap three values:
+=/  fir/tape  "January"
+=/  sec/tape  "March"
+=/  tir/tape  "August"
+=+  [fir=sec sec=tir tir=fir]
