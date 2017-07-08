@@ -92,7 +92,7 @@ tep
 ::
 :: setting b to a default value
 =/  b/tape  "default"
-=.  b  ?:(con b "alternative")  :: if (con) then b is default, else alt
+=.  b  ?:(con b "alternative")
 ::
 :: if b is null (an empty tape) then set to "default", else retain value
 =/  b/tape  ?~(b "default" b)
